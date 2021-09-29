@@ -3,6 +3,7 @@ package com.webmuffins.rtsx.board.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import com.webmuffins.rtsx.board.mapper.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class TagServiceImpl implements TagService {
     private static final Logger LOG = LoggerFactory.getLogger(TagServiceImpl.class);
 
     private final TagRepository tagRepository;
-    private final TagMapper tagMapper;
+    private final Mapper<Tag, TagDto> tagMapper;
 
     public TagServiceImpl(TagRepository tagRepository, TagMapper tagMapper) {
         this.tagRepository = tagRepository;
@@ -58,7 +59,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public void deleteTagById(UUID id) {
         boolean tagExists = tagRepository.existsById(id);
-        if(!tagExists) {
+        if (!tagExists) {
             throw new NotFoundException("Can not find tag with such id");
         }
         tagRepository.deleteById(id);
@@ -70,5 +71,4 @@ public class TagServiceImpl implements TagService {
         return tagRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Can not find tag with such id"));
     }
-
 }
