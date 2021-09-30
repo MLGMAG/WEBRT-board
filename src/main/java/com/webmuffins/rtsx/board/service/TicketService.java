@@ -1,3 +1,5 @@
 package com.webmuffins.rtsx.board.service;
 
-public interface TicketService {}
+public interface TicketService {
+    
+}
