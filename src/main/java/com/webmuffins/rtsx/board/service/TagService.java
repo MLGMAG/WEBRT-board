@@ -3,21 +3,22 @@ package com.webmuffins.rtsx.board.service;
 import java.util.List;
 import java.util.UUID;
 
-import com.webmuffins.rtsx.board.dto.TagDto;
+import com.webmuffins.rtsx.board.dto.tag.TagRequestDto;
+import com.webmuffins.rtsx.board.dto.tag.TagResponseDto;
 import com.webmuffins.rtsx.board.entity.Tag;
 
 public interface TagService {
 
-    List<TagDto> getAllTags();
+    List<TagResponseDto> getAllTags();
 
-    TagDto getTagById(UUID id);
+    TagResponseDto getTagById(Long id);
 
-    TagDto createTag(TagDto dto);
+    TagResponseDto createTag(TagRequestDto dto);
 
-    TagDto updateTagById(UUID id, TagDto dto);
+    TagResponseDto updateTagById(Long id, TagRequestDto dto);
 
-    void deleteTagById(UUID id);
+    void deleteTagById(Long id);
 
-    Tag getEntityById(UUID id);
+    Tag getEntityById(Long id);
 
 }

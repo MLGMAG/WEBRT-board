@@ -3,25 +3,24 @@ package com.webmuffins.rtsx.board.entity;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name = "Tag")
 @Table(name = "tag")
 public class Tag {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
+    @GeneratedValue(generator = "tag_id_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "tag_id_seq", sequenceName = "tag_id_seq", allocationSize = 1)
+    private Long id;
 
     @ManyToMany(mappedBy = "tags")
     private List<Ticket> tickets;
@@ -32,17 +31,17 @@ public class Tag {
     public Tag() {
     }
 
-    public Tag(UUID id, List<Ticket> tickets, String name) {
+    public Tag(Long id, List<Ticket> tickets, String name) {
         this.id = id;
         this.tickets = tickets;
         this.name = name;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -71,9 +70,7 @@ public class Tag {
             return false;
         }
         Tag tag = (Tag) o;
-        return Objects.equals(getId(), tag.getId()) &&
-                Objects.equals(getTickets(), tag.getTickets()) &&
-                Objects.equals(getName(), tag.getName());
+        return Objects.equals(getId(), tag.getId()) && Objects.equals(getTickets(), tag.getTickets()) && Objects.equals(getName(), tag.getName());
     }
 
     @Override
@@ -83,10 +80,7 @@ public class Tag {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Tag.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("tickets=" + tickets)
-                .add("name='" + name + "'")
+        return new StringJoiner(", ", Tag.class.getSimpleName() + "[", "]").add("id=" + id).add("tickets=" + tickets).add("name='" + name + "'")
                 .toString();
     }
 }

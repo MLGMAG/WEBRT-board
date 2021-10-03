@@ -3,27 +3,26 @@ package com.webmuffins.rtsx.board.entity;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
-@Entity(name = "BoardColumn")
-@Table(name = "board_column")
-public class BoardColumn {
+@Entity(name = "BoardRow")
+@Table(name = "board_row")
+public class BoardRow {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
+    @GeneratedValue(generator = "board_row_id_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "board_row_id_seq", sequenceName = "board_row_id_seq", allocationSize = 1)
+    private Long id;
 
     @Column(name = "title")
     private String title;
@@ -40,10 +39,10 @@ public class BoardColumn {
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
-    public BoardColumn() {
+    public BoardRow() {
     }
 
-    public BoardColumn(UUID id, String title, String color, int position, List<Ticket> tickets, Board board) {
+    public BoardRow(Long id, String title, String color, int position, List<Ticket> tickets, Board board) {
         this.id = id;
         this.title = title;
         this.color = color;
@@ -52,11 +51,11 @@ public class BoardColumn {
         this.board = board;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -105,10 +104,10 @@ public class BoardColumn {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof BoardColumn)) {
+        if (!(o instanceof BoardRow)) {
             return false;
         }
-        BoardColumn that = (BoardColumn) o;
+        BoardRow that = (BoardRow) o;
         return getPosition() == that.getPosition() &&
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getTitle(), that.getTitle()) &&
@@ -124,7 +123,7 @@ public class BoardColumn {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", BoardColumn.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", BoardRow.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
                 .add("title='" + title + "'")
                 .add("color='" + color + "'")
