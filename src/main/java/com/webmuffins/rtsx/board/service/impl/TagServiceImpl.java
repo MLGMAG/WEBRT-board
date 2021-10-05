@@ -1,6 +1,7 @@
 package com.webmuffins.rtsx.board.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public TagResponseDto getTagById(Long id) {
+    public TagResponseDto getTagById(UUID id) {
         Tag tag = getEntityById(id);
         return tagMapper.mapEntityToDto(tag);
     }
@@ -49,7 +50,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public TagResponseDto updateTagById(Long id, TagRequestDto dto) {
+    public TagResponseDto updateTagById(UUID id, TagRequestDto dto) {
         Tag tagToUpdate = tagMapper.mapDtoToEntity(dto);
         tagToUpdate.setId(id);
         Tag updatedTag = tagRepository.save(tagToUpdate);
@@ -57,7 +58,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void deleteTagById(Long id) {
+    public void deleteTagById(UUID id) {
         boolean tagExists = tagRepository.existsById(id);
         if(!tagExists) {
             throw new NotFoundException("Can not find tag with such id");
@@ -67,7 +68,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag getEntityById(Long id) {
+    public Tag getEntityById(UUID id) {
         return tagRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Can not find tag with such id"));
     }

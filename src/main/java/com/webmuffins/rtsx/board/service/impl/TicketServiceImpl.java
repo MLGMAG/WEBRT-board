@@ -1,6 +1,7 @@
 package com.webmuffins.rtsx.board.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,13 +36,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket findEntityById(Long id) {
+    public Ticket findEntityById(UUID id) {
         return ticketRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Can not find ticket with such id: '%s'", id)));
     }
 
     @Override
-    public TicketResponseDto findById(Long id) {
+    public TicketResponseDto findById(UUID id) {
         Ticket ticket = findEntityById(id);
         return ticketMapper.mapEntityToDto(ticket);
     }
@@ -53,7 +54,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketResponseDto updateTicket(Long id, TicketRequestDto dto) {
+    public TicketResponseDto updateTicket(UUID id, TicketRequestDto dto) {
         Ticket ticketToUpdate = ticketMapper.mapDtoToEntity(dto);
         ticketToUpdate.setId(id);
         Ticket updatedTicket = ticketRepository.save(ticketToUpdate);
@@ -61,7 +62,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void deleteTicketById(Long id) {
+    public void deleteTicketById(UUID id) {
         ticketRepository.deleteById(id);
         LOG.info("Deleted ticket with id : {}", id);
     }

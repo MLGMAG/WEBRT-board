@@ -3,6 +3,7 @@ package com.webmuffins.rtsx.board.entity;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,14 +11,14 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.webmuffins.rtsx.board.constants.Complexity;
 import com.webmuffins.rtsx.board.constants.Priority;
@@ -28,9 +29,9 @@ import com.webmuffins.rtsx.board.constants.TicketType;
 public class Ticket {
 
     @Id
-    @GeneratedValue(generator = "ticket_id_seq", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "ticket_id_seq", sequenceName = "ticket_id_seq", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(name = "title")
     private String title;
@@ -60,7 +61,7 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(Long id, String title, TicketType type, int position, Complexity complexity, Priority priority, List<Tag> tags, BoardRow boardRow) {
+    public Ticket(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, List<Tag> tags, BoardRow boardRow) {
         this.id = id;
         this.title = title;
         this.type = type;
@@ -71,11 +72,11 @@ public class Ticket {
         this.boardRow = boardRow;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -3,6 +3,7 @@ package com.webmuffins.rtsx.board.dto.ticket;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import com.webmuffins.rtsx.board.constants.Complexity;
 import com.webmuffins.rtsx.board.constants.Priority;
@@ -11,7 +12,7 @@ import com.webmuffins.rtsx.board.dto.tag.TagResponseDto;
 
 public class TicketResponseDto {
 
-    private Long id;
+    private UUID id;
     private String title;
     private TicketType type;
     private int position;
@@ -23,7 +24,7 @@ public class TicketResponseDto {
     public TicketResponseDto() {
     }
 
-    public TicketResponseDto(Long id, String title, TicketType type, int position, Complexity complexity, Priority priority, List<TagResponseDto> tags, String boardCode) {
+    public TicketResponseDto(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, List<TagResponseDto> tags, String boardCode) {
         this.id = id;
         this.title = title;
         this.type = type;
@@ -34,11 +35,11 @@ public class TicketResponseDto {
         this.boardCode = boardCode;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

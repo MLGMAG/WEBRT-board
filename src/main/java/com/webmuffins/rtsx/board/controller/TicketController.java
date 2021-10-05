@@ -1,6 +1,7 @@
 package com.webmuffins.rtsx.board.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +34,7 @@ public class TicketController {
     }
 
     @GetMapping("/{id}")
-    public TicketResponseDto getById(@PathVariable Long id) {
+    public TicketResponseDto getById(@PathVariable UUID id) {
         return ticketService.findById(id);
     }
 
@@ -44,13 +45,13 @@ public class TicketController {
     }
 
     @PutMapping("/{id}")
-    public TicketResponseDto updateTicket(@PathVariable Long id, @RequestBody TicketRequestDto dto) {
+    public TicketResponseDto updateTicket(@PathVariable UUID id, @RequestBody TicketRequestDto dto) {
         return ticketService.updateTicket(id, dto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTicket(@PathVariable Long id) {
+    public void deleteTicket(@PathVariable UUID id) {
         ticketService.deleteTicketById(id);
     }
 }

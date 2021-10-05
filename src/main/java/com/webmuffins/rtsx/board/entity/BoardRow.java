@@ -3,26 +3,27 @@ package com.webmuffins.rtsx.board.entity;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name = "BoardRow")
 @Table(name = "board_row")
 public class BoardRow {
 
     @Id
-    @GeneratedValue(generator = "board_row_id_seq", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "board_row_id_seq", sequenceName = "board_row_id_seq", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(name = "title")
     private String title;
@@ -42,7 +43,7 @@ public class BoardRow {
     public BoardRow() {
     }
 
-    public BoardRow(Long id, String title, String color, int position, List<Ticket> tickets, Board board) {
+    public BoardRow(UUID id, String title, String color, int position, List<Ticket> tickets, Board board) {
         this.id = id;
         this.title = title;
         this.color = color;
@@ -51,11 +52,11 @@ public class BoardRow {
         this.board = board;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

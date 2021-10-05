@@ -2,10 +2,11 @@ package com.webmuffins.rtsx.board.dto.tag;
 
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 public class TagResponseDto {
 
-    private Long id;
+    private UUID id;
     private String name;
 
     public String getName() {
@@ -16,11 +17,11 @@ public class TagResponseDto {
         this.name = name;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

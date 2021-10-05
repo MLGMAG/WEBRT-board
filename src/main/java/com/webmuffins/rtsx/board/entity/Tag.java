@@ -3,24 +3,25 @@ package com.webmuffins.rtsx.board.entity;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name = "Tag")
 @Table(name = "tag")
 public class Tag {
 
     @Id
-    @GeneratedValue(generator = "tag_id_seq", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "tag_id_seq", sequenceName = "tag_id_seq", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @ManyToMany(mappedBy = "tags")
     private List<Ticket> tickets;
@@ -31,17 +32,17 @@ public class Tag {
     public Tag() {
     }
 
-    public Tag(Long id, List<Ticket> tickets, String name) {
+    public Tag(UUID id, List<Ticket> tickets, String name) {
         this.id = id;
         this.tickets = tickets;
         this.name = name;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

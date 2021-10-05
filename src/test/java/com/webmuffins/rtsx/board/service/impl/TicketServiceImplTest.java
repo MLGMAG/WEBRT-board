@@ -2,20 +2,19 @@ package com.webmuffins.rtsx.board.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.webmuffins.rtsx.board.dto.ticket.TicketRequestDto;
@@ -28,7 +27,7 @@ import com.webmuffins.rtsx.board.repository.TicketRepository;
 @ExtendWith(MockitoExtension.class)
 class TicketServiceImplTest {
 
-    private static final Long DEFAULT_ID =1L;
+    private static final UUID DEFAULT_ID = UUID.randomUUID();
     private static final String DEFAULT_TITLE = "title";
 
     private Ticket ticket;

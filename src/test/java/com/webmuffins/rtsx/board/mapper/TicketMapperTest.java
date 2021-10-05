@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,16 +32,16 @@ import com.webmuffins.rtsx.board.repository.TagRepository;
 @ExtendWith(MockitoExtension.class)
 class TicketMapperTest {
 
-    private static final Long DEFAULT_ID =1L;
+    private static final UUID DEFAULT_ID = UUID.randomUUID();
     private static final String DEFAULT_TITLE = "title";
     private static final TicketType DEFAULT_TYPE = TicketType.TASK;
     private static final Priority DEFAULT_PRIORITY = Priority.HIGH;
     private static final int DEFAULT_POSITION = 1;
     private static final Complexity DEFAULT_COMPLEXITY = Complexity.MEDIUM;
 
-    private static final Long DEFAULT_TAG_ID = 2L;
+    private static final UUID DEFAULT_TAG_ID = UUID.randomUUID();
     private static final String DEFAULT_TAG_NAME = "tag name";
-    private static final Long DEFAULT_BOARD_ROW_ID = 3L;
+    private static final UUID DEFAULT_BOARD_ROW_ID = UUID.randomUUID();
     private static final String DEFAULT_BOARD_CODE = "code";
 
     private Tag tag;

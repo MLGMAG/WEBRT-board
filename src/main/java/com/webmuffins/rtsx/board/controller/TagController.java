@@ -1,6 +1,7 @@
 package com.webmuffins.rtsx.board.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +34,7 @@ public class TagController {
     }
 
     @GetMapping("/{id}")
-    public TagResponseDto getTagById(@PathVariable Long id) {
+    public TagResponseDto getTagById(@PathVariable UUID id) {
         return tagService.getTagById(id);
     }
 
@@ -44,13 +45,13 @@ public class TagController {
     }
 
     @PutMapping("/{id}")
-    public TagResponseDto updateTag(@PathVariable Long id, @RequestBody TagRequestDto dto) {
+    public TagResponseDto updateTag(@PathVariable UUID id, @RequestBody TagRequestDto dto) {
         return tagService.updateTagById(id, dto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTag(@PathVariable Long id) {
+    public void deleteTag(@PathVariable UUID id) {
         tagService.deleteTagById(id);
     }
 }

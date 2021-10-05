@@ -3,24 +3,25 @@ package com.webmuffins.rtsx.board.entity;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name = "Board")
 @Table(name = "board")
 public class Board {
 
     @Id
-    @GeneratedValue(generator = "board_id_seq", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "board_id_seq", sequenceName = "board_id_seq", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(name = "title")
     private String title;
@@ -34,18 +35,18 @@ public class Board {
     public Board() {
     }
 
-    public Board(Long id, String title, List<BoardRow> rows, String code) {
+    public Board(UUID id, String title, List<BoardRow> rows, String code) {
         this.id = id;
         this.title = title;
         this.rows = rows;
         this.code = code;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

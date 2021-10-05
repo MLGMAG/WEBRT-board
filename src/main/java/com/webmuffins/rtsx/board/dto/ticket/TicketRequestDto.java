@@ -3,6 +3,7 @@ package com.webmuffins.rtsx.board.dto.ticket;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -29,12 +30,12 @@ public class TicketRequestDto {
     private List<TagRequestDto> tags;
 
     @NotNull(message = "Ticket row can not be null")
-    private Long rowId;
+    private UUID rowId;
 
     public TicketRequestDto() {
     }
 
-    public TicketRequestDto(String title, TicketType type, int position, Complexity complexity, Priority priority, List<TagRequestDto> tags, Long rowId) {
+    public TicketRequestDto(String title, TicketType type, int position, Complexity complexity, Priority priority, List<TagRequestDto> tags, UUID rowId) {
         this.title = title;
         this.type = type;
         this.position = position;
@@ -92,11 +93,11 @@ public class TicketRequestDto {
         this.tags = tags;
     }
 
-    public Long getRowId() {
+    public UUID getRowId() {
         return rowId;
     }
 
-    public void setRowId(Long rowId) {
+    public void setRowId(UUID rowId) {
         this.rowId = rowId;
     }
 
