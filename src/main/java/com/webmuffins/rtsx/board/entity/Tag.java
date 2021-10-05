@@ -71,9 +71,7 @@ public class Tag {
             return false;
         }
         Tag tag = (Tag) o;
-        return Objects.equals(getId(), tag.getId()) &&
-                Objects.equals(getTickets(), tag.getTickets()) &&
-                Objects.equals(getName(), tag.getName());
+        return Objects.equals(getId(), tag.getId()) && Objects.equals(getTickets(), tag.getTickets()) && Objects.equals(getName(), tag.getName());
     }
 
     @Override
@@ -83,10 +81,7 @@ public class Tag {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Tag.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("tickets=" + tickets)
-                .add("name='" + name + "'")
+        return new StringJoiner(", ", Tag.class.getSimpleName() + "[", "]").add("id=" + id).add("tickets=" + tickets).add("name='" + name + "'")
                 .toString();
     }
 }

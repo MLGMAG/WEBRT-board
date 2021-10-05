@@ -27,15 +27,19 @@ public class Board {
     private String title;
 
     @OneToMany
-    private List<BoardColumn> columns;
+    private List<BoardRow> rows;
+
+    @Column(name = "code")
+    private String code;
 
     public Board() {
     }
 
-    public Board(UUID id, String title, List<BoardColumn> columns) {
+    public Board(UUID id, String title, List<BoardRow> rows, String code) {
         this.id = id;
         this.title = title;
-        this.columns = columns;
+        this.rows = rows;
+        this.code = code;
     }
 
     public UUID getId() {
@@ -54,12 +58,20 @@ public class Board {
         this.title = title;
     }
 
-    public List<BoardColumn> getColumns() {
-        return columns;
+    public List<BoardRow> getRows() {
+        return rows;
     }
 
-    public void setColumns(List<BoardColumn> columns) {
-        this.columns = columns;
+    public void setRows(List<BoardRow> rows) {
+        this.rows = rows;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override
@@ -71,23 +83,18 @@ public class Board {
             return false;
         }
         Board board = (Board) o;
-        return Objects.equals(getId(), board.getId()) &&
-                Objects.equals(getTitle(), board.getTitle()) &&
-                Objects.equals(getColumns(), board.getColumns());
+        return Objects.equals(getId(), board.getId()) && Objects.equals(getTitle(), board.getTitle()) && Objects.equals(getRows(), board.getRows())
+                && Objects.equals(getCode(), board.getCode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getColumns());
+        return Objects.hash(getId(), getTitle(), getRows(), getCode());
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Board.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("title='" + title + "'")
-                .add("columns=" + columns)
-                .toString();
+        return new StringJoiner(", ", Board.class.getSimpleName() + "[", "]").add("id=" + id).add("title='" + title + "'").add("columns=" + rows)
+                .add("code='" + code + "'").toString();
     }
-
 }

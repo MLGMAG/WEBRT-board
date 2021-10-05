@@ -16,9 +16,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity(name = "BoardColumn")
-@Table(name = "board_column")
-public class BoardColumn {
+@Entity(name = "BoardRow")
+@Table(name = "board_row")
+public class BoardRow {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -40,10 +40,10 @@ public class BoardColumn {
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
-    public BoardColumn() {
+    public BoardRow() {
     }
 
-    public BoardColumn(UUID id, String title, String color, int position, List<Ticket> tickets, Board board) {
+    public BoardRow(UUID id, String title, String color, int position, List<Ticket> tickets, Board board) {
         this.id = id;
         this.title = title;
         this.color = color;
@@ -105,10 +105,10 @@ public class BoardColumn {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof BoardColumn)) {
+        if (!(o instanceof BoardRow)) {
             return false;
         }
-        BoardColumn that = (BoardColumn) o;
+        BoardRow that = (BoardRow) o;
         return getPosition() == that.getPosition() &&
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getTitle(), that.getTitle()) &&
@@ -124,7 +124,7 @@ public class BoardColumn {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", BoardColumn.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", BoardRow.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
                 .add("title='" + title + "'")
                 .add("color='" + color + "'")

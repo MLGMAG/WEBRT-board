@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.webmuffins.rtsx.board.entity.BoardColumn;
+import com.webmuffins.rtsx.board.entity.BoardRow;
 
 @Repository
-public interface BoardColumnRepository extends JpaRepository<BoardColumn, UUID> {}
+public interface BoardRowRepository extends JpaRepository<BoardRow, UUID> {}

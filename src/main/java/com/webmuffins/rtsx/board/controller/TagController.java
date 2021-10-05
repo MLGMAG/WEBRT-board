@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.webmuffins.rtsx.board.dto.TagDto;
+import com.webmuffins.rtsx.board.dto.tag.TagRequestDto;
+import com.webmuffins.rtsx.board.dto.tag.TagResponseDto;
 import com.webmuffins.rtsx.board.service.TagService;
 
 @RestController
@@ -28,23 +29,23 @@ public class TagController {
     }
 
     @GetMapping
-    public List<TagDto> getAllTags() {
+    public List<TagResponseDto> getAllTags() {
         return tagService.getAllTags();
     }
 
     @GetMapping("/{id}")
-    public TagDto getTagById(@PathVariable UUID id) {
+    public TagResponseDto getTagById(@PathVariable UUID id) {
         return tagService.getTagById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TagDto createTag(@RequestBody TagDto dto) {
+    public TagResponseDto createTag(@RequestBody TagRequestDto dto) {
         return tagService.createTag(dto);
     }
 
     @PutMapping("/{id}")
-    public TagDto updateTag(@PathVariable UUID id, @RequestBody TagDto dto) {
+    public TagResponseDto updateTag(@PathVariable UUID id, @RequestBody TagRequestDto dto) {
         return tagService.updateTagById(id, dto);
     }
 

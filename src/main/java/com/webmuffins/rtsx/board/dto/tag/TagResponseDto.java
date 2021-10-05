@@ -1,10 +1,10 @@
-package com.webmuffins.rtsx.board.dto;
+package com.webmuffins.rtsx.board.dto.tag;
 
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
 
-public class TagDto {
+public class TagResponseDto {
 
     private UUID id;
     private String name;
@@ -30,11 +30,12 @@ public class TagDto {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof TagDto)) {
+        if (!(o instanceof TagResponseDto)) {
             return false;
         }
-        TagDto dto = (TagDto) o;
-        return Objects.equals(getId(), dto.getId()) && Objects.equals(getName(), dto.getName());
+        TagResponseDto dto = (TagResponseDto) o;
+        return Objects.equals(getId(), dto.getId()) &&
+                Objects.equals(getName(), dto.getName());
     }
 
     @Override
@@ -44,7 +45,7 @@ public class TagDto {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", TagDto.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", TagResponseDto.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
                 .add("name='" + name + "'")
                 .toString();

@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,6 +19,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.webmuffins.rtsx.board.constants.Complexity;
+import com.webmuffins.rtsx.board.constants.Priority;
+import com.webmuffins.rtsx.board.constants.TicketType;
 
 @Entity(name = "Ticket")
 @Table(name = "ticket")
@@ -31,39 +37,39 @@ public class Ticket {
     private String title;
 
     @Column(name = "type")
-    private String type;
-
-    @Column(name = "uid")
-    private String uid;
+    @Enumerated(EnumType.STRING)
+    private TicketType type;
 
     @Column(name = "position")
     private int position;
 
-    @Column(name = "story_points")
-    private int storyPoints;
+    @Column(name = "complexity")
+    @Enumerated(EnumType.STRING)
+    private Complexity complexity;
+
+    @Column(name = "priority")
+    private Priority priority;
 
     @ManyToMany
-    @JoinTable(name = "ticket_tag",
-            joinColumns = @JoinColumn(name = "ticket_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @JoinTable(name = "ticket_tag", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "column_id")
-    private BoardColumn boardColumn;
+    @JoinColumn(name = "row_id")
+    private BoardRow boardRow;
 
     public Ticket() {
     }
 
-    public Ticket(UUID id, String title, String type, String uid, int position, int storyPoints, List<Tag> tags, BoardColumn boardColumn) {
+    public Ticket(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, List<Tag> tags, BoardRow boardRow) {
         this.id = id;
         this.title = title;
         this.type = type;
-        this.uid = uid;
         this.position = position;
-        this.storyPoints = storyPoints;
+        this.complexity = complexity;
+        this.priority = priority;
         this.tags = tags;
-        this.boardColumn = boardColumn;
+        this.boardRow = boardRow;
     }
 
     public UUID getId() {
@@ -82,20 +88,12 @@ public class Ticket {
         this.title = title;
     }
 
-    public String getType() {
+    public TicketType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TicketType type) {
         this.type = type;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     public int getPosition() {
@@ -106,12 +104,20 @@ public class Ticket {
         this.position = position;
     }
 
-    public int getStoryPoints() {
-        return storyPoints;
+    public Complexity getComplexity() {
+        return complexity;
     }
 
-    public void setStoryPoints(int storyPoints) {
-        this.storyPoints = storyPoints;
+    public void setComplexity(Complexity complexity) {
+        this.complexity = complexity;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     public List<Tag> getTags() {
@@ -122,12 +128,12 @@ public class Ticket {
         this.tags = tags;
     }
 
-    public BoardColumn getBoardColumn() {
-        return boardColumn;
+    public BoardRow getBoardRow() {
+        return boardRow;
     }
 
-    public void setBoardColumn(BoardColumn boardColumn) {
-        this.boardColumn = boardColumn;
+    public void setBoardRow(BoardRow boardRow) {
+        this.boardRow = boardRow;
     }
 
     @Override
@@ -139,32 +145,23 @@ public class Ticket {
             return false;
         }
         Ticket ticket = (Ticket) o;
-        return getPosition() == ticket.getPosition() &&
-                getStoryPoints() == ticket.getStoryPoints() &&
-                Objects.equals(getId(), ticket.getId())
-                && Objects.equals(getTitle(), ticket.getTitle()) &&
-                Objects.equals(getType(), ticket.getType()) &&
-                Objects.equals(getUid(), ticket.getUid()) &&
-                Objects.equals(getTags(), ticket.getTags()) &&
-                Objects.equals(getBoardColumn(), ticket.getBoardColumn());
+        return getPosition() == ticket.getPosition() && Objects.equals(getId(), ticket.getId()) && Objects.equals(getTitle(), ticket.getTitle())
+                && getType() == ticket.getType() && getComplexity() == ticket.getComplexity() && getPriority() == ticket.getPriority() && Objects
+                .equals(getTags(), ticket.getTags()) && Objects.equals(getBoardRow(), ticket.getBoardRow());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getType(), getUid(), getPosition(), getStoryPoints(), getTags(), getBoardColumn());
+        return Objects.hash(getId(), getTitle(), getType(), getPosition(), getComplexity(), getPriority(), getTags(), getBoardRow());
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Ticket.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("title='" + title + "'")
-                .add("type='" + type + "'")
-                .add("uid='" + uid + "'")
-                .add("position=" + position)
-                .add("storyPoints=" + storyPoints)
-                .add("tags=" + tags)
-                .add("boardColumn=" + boardColumn)
-                .toString();
+        return new StringJoiner(", ", Ticket.class.getSimpleName() + "[", "]").add("id=" + id).add("title='" + title + "'").add("type=" + type)
+                .add("position=" + position).add("complexity=" + complexity).add("priority=" + priority).add("tags=" + tags)
+                .add("boardRow=" + boardRow).toString();
     }
+
 }
+
+
