@@ -17,7 +17,7 @@ import com.webmuffins.rtsx.board.service.TicketService;
 @Service
 public class TicketServiceImpl implements TicketService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TagServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TicketServiceImpl.class);
 
     private final TicketRepository ticketRepository;
     private final Mapper<Ticket, TicketRequestDto, TicketResponseDto> ticketMapper;
@@ -65,4 +65,5 @@ public class TicketServiceImpl implements TicketService {
         ticketRepository.deleteById(id);
         LOG.info("Deleted ticket with id : {}", id);
     }
+
 }

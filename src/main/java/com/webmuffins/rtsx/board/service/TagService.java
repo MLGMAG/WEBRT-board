@@ -1,7 +1,6 @@
 package com.webmuffins.rtsx.board.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.webmuffins.rtsx.board.dto.tag.TagRequestDto;
 import com.webmuffins.rtsx.board.dto.tag.TagResponseDto;
