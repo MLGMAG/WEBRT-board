@@ -26,20 +26,16 @@ public class Board {
     @Column(name = "title")
     private String title;
 
-    @OneToMany
+    @OneToMany(mappedBy = "board")
     private List<BoardRow> rows;
-
-    @Column(name = "code")
-    private String code;
 
     public Board() {
     }
 
-    public Board(UUID id, String title, List<BoardRow> rows, String code) {
+    public Board(UUID id, String title, List<BoardRow> rows) {
         this.id = id;
         this.title = title;
         this.rows = rows;
-        this.code = code;
     }
 
     public UUID getId() {
@@ -66,14 +62,6 @@ public class Board {
         this.rows = rows;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -83,18 +71,18 @@ public class Board {
             return false;
         }
         Board board = (Board) o;
-        return Objects.equals(getId(), board.getId()) && Objects.equals(getTitle(), board.getTitle()) && Objects.equals(getRows(), board.getRows())
-                && Objects.equals(getCode(), board.getCode());
+        return Objects.equals(getId(), board.getId()) && Objects.equals(getTitle(), board.getTitle()) && Objects.equals(getRows(), board.getRows());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getRows(), getCode());
+        return Objects.hash(getId(), getTitle(), getRows());
     }
 
     @Override
     public String toString() {
         return new StringJoiner(", ", Board.class.getSimpleName() + "[", "]").add("id=" + id).add("title='" + title + "'").add("columns=" + rows)
-                .add("code='" + code + "'").toString();
+               .toString();
     }
+
 }
