@@ -9,12 +9,13 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.webmuffins.rtsx</groupId>
-    <artifactId>WEBRT-board</artifactId>
+    <artifactId>RT-board</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>WEBRT-board</name>
+    <name>RT-board</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
+        <springfox.version>3.0.0</springfox.version>
     </properties>
     <dependencies>
         <dependency>
@@ -65,6 +66,17 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox.version}</version>
         </dependency>
     </dependencies>
 
