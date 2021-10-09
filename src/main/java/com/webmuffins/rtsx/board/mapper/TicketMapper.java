@@ -38,7 +38,6 @@ public class TicketMapper implements Mapper<Ticket, TicketRequestDto, TicketResp
         dto.setType(entity.getType());
         dto.setPriority(entity.getPriority());
         dto.setComplexity(entity.getComplexity());
-        dto.setBoardCode(entity.getBoardRow().getBoard().getCode());
 
         return dto;
     }

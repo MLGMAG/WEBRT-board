@@ -41,8 +41,6 @@ class TicketMapperTest {
 
     private static final UUID DEFAULT_TAG_ID = UUID.randomUUID();
     private static final String DEFAULT_TAG_NAME = "tag name";
-    private static final UUID DEFAULT_BOARD_ROW_ID = UUID.randomUUID();
-    private static final String DEFAULT_BOARD_CODE = "code";
 
     private Tag tag;
     private TagResponseDto tagResponseDto;
@@ -58,8 +56,6 @@ class TicketMapperTest {
     private List<Ticket> ticketList;
     private List<TicketResponseDto> ticketResponseDtoList;
 
-    private BoardRow boardRow;
-
     @Mock
     private BoardRowRepository boardRowRepository;
 
@@ -74,12 +70,6 @@ class TicketMapperTest {
 
     @BeforeEach
     void setUp() {
-        boardRow = new BoardRow();
-        boardRow.setId(DEFAULT_BOARD_ROW_ID);
-        Board board = new Board();
-        board.setCode(DEFAULT_BOARD_CODE);
-        boardRow.setBoard(board);
-
         tag = new Tag();
         tag.setName(DEFAULT_TAG_NAME);
         tagRequestDto = new TagRequestDto();
@@ -105,7 +95,6 @@ class TicketMapperTest {
         ticket.setPosition(DEFAULT_POSITION);
         ticket.setTags(tagList);
         ticket.setId(DEFAULT_ID);
-        ticket.setBoardRow(boardRow);
 
         ticketResponseDto.setPriority(DEFAULT_PRIORITY);
         ticketResponseDto.setComplexity(DEFAULT_COMPLEXITY);
@@ -114,7 +103,6 @@ class TicketMapperTest {
         ticketResponseDto.setPosition(DEFAULT_POSITION);
         ticketResponseDto.setTags(tagResponseDtoList);
         ticketResponseDto.setId(DEFAULT_ID);
-        ticketResponseDto.setBoardCode(DEFAULT_BOARD_CODE);
 
         ticketRequestDto.setPriority(DEFAULT_PRIORITY);
         ticketRequestDto.setComplexity(DEFAULT_COMPLEXITY);
@@ -122,7 +110,6 @@ class TicketMapperTest {
         ticketRequestDto.setTitle(DEFAULT_TITLE);
         ticketRequestDto.setPosition(DEFAULT_POSITION);
         ticketRequestDto.setTags(tagRequestDtoList);
-        ticketRequestDto.setRowId(DEFAULT_BOARD_ROW_ID);
     }
 
     @Test
@@ -130,7 +117,6 @@ class TicketMapperTest {
         ticket.setId(null);
 
         when(tagRepository.findAllByNameIn(Collections.singletonList(DEFAULT_TAG_NAME))).thenReturn(tagList);
-        when(boardRowRepository.getById(DEFAULT_BOARD_ROW_ID)).thenReturn(boardRow);
         Ticket actual = testInstance.mapDtoToEntity(ticketRequestDto);
 
         assertThat(actual).isNotNull()
@@ -163,7 +149,6 @@ class TicketMapperTest {
         ticket.setId(null);
 
         when(tagRepository.findAllByNameIn(Collections.singletonList(DEFAULT_TAG_NAME))).thenReturn(tagList);
-        when(boardRowRepository.getById(DEFAULT_BOARD_ROW_ID)).thenReturn(boardRow);
         List<Ticket> actual = testInstance.mapDtoListToEntityList(ticketRequestDtoList);
 
         assertThat(actual).isNotNull()
