@@ -46,6 +46,7 @@ class BoardMapperTest {
     @Test
     void shouldMapDtoToEntity() {
         board.setId(null);
+
         Board actual = testInstance.mapDtoToEntity(boardRequestDto);
 
         assertThat(actual).isNotNull()

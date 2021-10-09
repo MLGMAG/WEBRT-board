@@ -17,7 +17,7 @@ import com.webmuffins.rtsx.board.service.BoardService;
 @Service
 public class BoardServiceImpl implements BoardService {
 
-    private final Logger LOG = LoggerFactory.getLogger(BoardServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BoardServiceImpl.class);
 
     private final BoardRepository boardRepository;
     private final Mapper<Board, BoardRequestDto, BoardResponseDto> boardMapper;
