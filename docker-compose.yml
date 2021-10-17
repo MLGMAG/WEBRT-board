@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  rt-board:
+    container_name: rt-board
+    env_file: rt-board.env
+    build: .
+    network_mode: host
+    restart: always
