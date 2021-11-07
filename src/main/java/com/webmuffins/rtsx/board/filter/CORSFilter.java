@@ -1,24 +1,18 @@
 package com.webmuffins.rtsx.board.filter;
 
-import static com.webmuffins.rtsx.board.constants.HTTPConstants.*;
-
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+
+import static com.webmuffins.rtsx.board.constants.HTTPConstants.*;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -33,20 +27,11 @@ public class CORSFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         setResponseHeadersProperties(response);
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        if(!checkValidOrigin(request)) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return;
-        }
         if (HttpMethod.OPTIONS.name().equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
-    }
-
-    private boolean checkValidOrigin(HttpServletRequest request) {
-        return origins.stream()
-                .anyMatch(origin -> request.getRemoteHost().contains(origin));
     }
 
     private void setResponseHeadersProperties(HttpServletResponse response) {
