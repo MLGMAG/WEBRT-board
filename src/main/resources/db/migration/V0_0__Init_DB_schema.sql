@@ -7,8 +7,7 @@ create table if not exists tag
 create table if not exists board
 (
     id uuid primary key default gen_random_uuid(),
-    title varchar not null,
-    code varchar not null
+    title varchar not null
 );
 
 create table if not exists board_row
@@ -31,6 +30,7 @@ create table if not exists ticket
     complexity varchar,
     priority varchar,
     row_id uuid not null,
+    user_id bigint,
 
     foreign key(row_id) references board_row(id)
 );
