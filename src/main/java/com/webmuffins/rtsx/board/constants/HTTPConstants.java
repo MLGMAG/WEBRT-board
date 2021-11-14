@@ -13,4 +13,6 @@ public class HTTPConstants {
     public static final String ALLOWED_HTTP_METHODS = "POST, PUT, GET, PATCH, OPTIONS, DELETE";
     public static final String ALLOWED_HEADERS = "Authorization, Content-Type, Authorization-Access";
     public static final String ALLOWED_MAX_AGE = "3600";
+
+    public static final String AUTHORIZATION_HEADER = "Authorization";
 }

@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.StringJoiner;
 
 import static com.webmuffins.rtsx.board.constants.HTTPConstants.*;
+
+import com.webmuffins.rtsx.board.entity.Board;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -35,7 +38,9 @@ public class CORSFilter implements Filter {
     }
 
     private void setResponseHeadersProperties(HttpServletResponse response) {
-        getOrigins().forEach(origin -> response.setHeader(CORS_ORIGIN_HEADER_PATTERN, origin));
+        StringJoiner stringJoiner = new StringJoiner(",", "", "");
+        getOrigins().forEach(stringJoiner::add);
+        response.setHeader(CORS_ORIGIN_HEADER_PATTERN, stringJoiner.toString());
         response.setHeader(CORS_METHODS_HEADER_PATTERN, ALLOWED_HTTP_METHODS);
         response.setHeader(CORS_HEADERS_HEADER_PATTERN, "*");
         response.setHeader(CORS_REQUEST_MAX_AGE_PATTERN, ALLOWED_MAX_AGE);
