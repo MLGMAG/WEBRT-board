@@ -19,25 +19,33 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.webmuffins.rtsx.board.dto.boardrow.BoardRowRequestDto;
 import com.webmuffins.rtsx.board.dto.boardrow.BoardRowResponseDto;
+import com.webmuffins.rtsx.board.dto.ticket.TicketResponseDto;
 import com.webmuffins.rtsx.board.entity.BoardRow;
 import com.webmuffins.rtsx.board.exception.NotFoundException;
 import com.webmuffins.rtsx.board.mapper.Mapper;
 import com.webmuffins.rtsx.board.repository.BoardRowRepository;
+import com.webmuffins.rtsx.board.service.TicketService;
 
 @ExtendWith(MockitoExtension.class)
 class BoardRowServiceImplTest {
 
     private static final UUID DEFAULT_ID = UUID.randomUUID();
     private static final String DEFAULT_TITLE = "title";
+    private static final UUID DEFAULT_BOARD_ID = UUID.randomUUID();
 
     private BoardRow boardRow;
     private BoardRowRequestDto boardRowRequestDto;
     private BoardRowResponseDto boardRowResponseDto;
     private List<BoardRow> boardRowList;
     private List<BoardRowResponseDto> boardRowResponseDtoList;
+    private TicketResponseDto ticketResponseDto;
+    private List<TicketResponseDto> ticketResponseDtoList;
 
     @Mock
     private BoardRowRepository boardRowRepository;
+
+    @Mock
+    private TicketService ticketService;
 
     @Mock
     private Mapper<BoardRow, BoardRowRequestDto, BoardRowResponseDto> boardRowMapper;
@@ -49,17 +57,18 @@ class BoardRowServiceImplTest {
     void setUp() {
         boardRow = new BoardRow();
         boardRowList = Collections.singletonList(boardRow);
-
+        ticketResponseDto = new TicketResponseDto();
         boardRowRequestDto = new BoardRowRequestDto();
 
         boardRowResponseDto = new BoardRowResponseDto();
         boardRowResponseDtoList = Collections.singletonList(boardRowResponseDto);
-
+        ticketResponseDtoList = Collections.singletonList(ticketResponseDto);
         boardRow.setTitle(DEFAULT_TITLE);
         boardRowResponseDto.setTitle(DEFAULT_TITLE);
         boardRowRequestDto.setTitle(DEFAULT_TITLE);
         boardRow.setId(DEFAULT_ID);
         boardRowResponseDto.setId(DEFAULT_ID);
+        boardRowResponseDto.setTickets(ticketResponseDtoList);
     }
 
     @Test
@@ -124,5 +133,17 @@ class BoardRowServiceImplTest {
         testInstance.deleteBoardRowById(DEFAULT_ID);
 
         verify(boardRowRepository).deleteById(DEFAULT_ID);
+    }
+
+    @Test
+    void shouldGetBoardRowsByBoardId() {
+        when(boardRowRepository.findBoardRowByBoard_Id(DEFAULT_BOARD_ID)).thenReturn(boardRowList);
+        when(boardRowMapper.mapEntityListToDtoList(boardRowList)).thenReturn(boardRowResponseDtoList);
+        when(ticketService.getTicketsByRowId(boardRowResponseDto.getId())).thenReturn(ticketResponseDtoList);
+
+        List<BoardRowResponseDto> actual = testInstance.getBoardRowsByBoardId(DEFAULT_BOARD_ID);
+
+        assertThat(actual).isNotNull()
+                .isEqualTo(boardRowResponseDtoList);
     }
 }

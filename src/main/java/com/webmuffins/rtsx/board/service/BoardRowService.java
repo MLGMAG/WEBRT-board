@@ -21,4 +21,8 @@ public interface BoardRowService {
 
     BoardRow getBoardRowEntityById(UUID id);
 
+    List<BoardRow> getBoardRowEntities();
+
+    List<BoardRowResponseDto> getBoardRowsByBoardId(UUID boardId);
+
 }

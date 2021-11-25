@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.webmuffins.rtsx.board.dto.board.BoardRequestDto;
 import com.webmuffins.rtsx.board.dto.board.BoardResponseDto;

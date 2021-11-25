@@ -67,4 +67,15 @@ public class TicketServiceImpl implements TicketService {
         LOG.info("Deleted ticket with id : {}", id);
     }
 
+    @Override
+    public List<Ticket> getTicketEntities() {
+        return ticketRepository.findAll();
+    }
+
+    @Override
+    public List<TicketResponseDto> getTicketsByRowId(UUID rowId) {
+        List<Ticket> tickets = ticketRepository.findTicketByBoardRow_Id(rowId);
+        return ticketMapper.mapEntityListToDtoList(tickets);
+    }
+
 }

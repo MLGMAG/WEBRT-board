@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,10 +20,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.webmuffins.rtsx.board.dto.board.BoardRequestDto;
 import com.webmuffins.rtsx.board.dto.board.BoardResponseDto;
+import com.webmuffins.rtsx.board.dto.boardrow.BoardRowResponseDto;
 import com.webmuffins.rtsx.board.entity.Board;
 import com.webmuffins.rtsx.board.exception.NotFoundException;
 import com.webmuffins.rtsx.board.mapper.BoardMapper;
 import com.webmuffins.rtsx.board.repository.BoardRepository;
+import com.webmuffins.rtsx.board.service.BoardRowService;
 
 @ExtendWith(MockitoExtension.class)
 class BoardServiceImplTest {
@@ -31,6 +35,8 @@ class BoardServiceImplTest {
 
     private Board board;
     private BoardResponseDto boardResponseDto;
+    private BoardRowResponseDto boardRowResponseDto;
+    private List<BoardRowResponseDto> boardRowResponseDtoList;
     private BoardRequestDto boardRequestDto;
 
     @Mock
@@ -38,6 +44,9 @@ class BoardServiceImplTest {
 
     @Mock
     private BoardRepository boardRepository;
+
+    @Mock
+    private BoardRowService boardRowService;
 
     @InjectMocks
     private BoardServiceImpl testInstance;
@@ -53,6 +62,10 @@ class BoardServiceImplTest {
         boardRequestDto.setTitle(DEFAULT_TITLE);
         boardResponseDto.setTitle(DEFAULT_TITLE);
         boardResponseDto.setId(DEFAULT_ID);
+        boardRowResponseDto = new BoardRowResponseDto();
+        boardRowResponseDto.setBoardId(DEFAULT_ID);
+        boardRowResponseDtoList = Collections.singletonList(boardRowResponseDto);
+        boardResponseDto.setRows(boardRowResponseDtoList);
     }
 
     @Test

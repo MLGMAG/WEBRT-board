@@ -14,6 +14,7 @@ import com.webmuffins.rtsx.board.exception.NotFoundException;
 import com.webmuffins.rtsx.board.mapper.Mapper;
 import com.webmuffins.rtsx.board.repository.BoardRowRepository;
 import com.webmuffins.rtsx.board.service.BoardRowService;
+import com.webmuffins.rtsx.board.service.TicketService;
 
 @Service
 public class BoardRowServiceImpl implements BoardRowService {
@@ -21,10 +22,12 @@ public class BoardRowServiceImpl implements BoardRowService {
     private static final Logger LOG = LoggerFactory.getLogger(BoardRowServiceImpl.class);
 
     private final BoardRowRepository boardRowRepository;
+    private final TicketService ticketService;
     private final Mapper<BoardRow, BoardRowRequestDto, BoardRowResponseDto> boardRowMapper;
 
-    public BoardRowServiceImpl(BoardRowRepository boardRowRepository, Mapper<BoardRow, BoardRowRequestDto, BoardRowResponseDto> boardRowMapper) {
+    public BoardRowServiceImpl(BoardRowRepository boardRowRepository, TicketService ticketService, Mapper<BoardRow, BoardRowRequestDto, BoardRowResponseDto> boardRowMapper) {
         this.boardRowRepository = boardRowRepository;
+        this.ticketService = ticketService;
         this.boardRowMapper = boardRowMapper;
     }
 
@@ -67,6 +70,20 @@ public class BoardRowServiceImpl implements BoardRowService {
     public BoardRow getBoardRowEntityById(UUID id) {
         return boardRowRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Can not find row with such id"));
+    }
+
+    @Override
+    public List<BoardRow> getBoardRowEntities() {
+        return boardRowRepository.findAll();
+    }
+
+    @Override
+    public List<BoardRowResponseDto> getBoardRowsByBoardId(UUID boardId) {
+        List<BoardRow> boardRows = boardRowRepository.findBoardRowByBoard_Id(boardId);
+        List<BoardRowResponseDto> boardRowResponseDtos = boardRowMapper.mapEntityListToDtoList(boardRows);
+        boardRowResponseDtos
+                .forEach(boardRowResponseDto -> boardRowResponseDto.setTickets(ticketService.getTicketsByRowId(boardRowResponseDto.getId())));
+        return boardRowResponseDtos;
     }
 
     private void checkIfRowExistsById(UUID id) {
