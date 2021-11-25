@@ -48,6 +48,7 @@ public class Ticket {
     private Complexity complexity;
 
     @Column(name = "priority")
+    @Enumerated(EnumType.STRING)
     private Priority priority;
 
     @ManyToMany

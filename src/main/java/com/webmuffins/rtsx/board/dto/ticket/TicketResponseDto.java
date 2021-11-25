@@ -19,12 +19,11 @@ public class TicketResponseDto {
     private Complexity complexity;
     private Priority priority;
     private List<TagResponseDto> tags;
-    private String boardCode;
 
     public TicketResponseDto() {
     }
 
-    public TicketResponseDto(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, List<TagResponseDto> tags, String boardCode) {
+    public TicketResponseDto(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, List<TagResponseDto> tags) {
         this.id = id;
         this.title = title;
         this.type = type;
@@ -32,7 +31,6 @@ public class TicketResponseDto {
         this.complexity = complexity;
         this.priority = priority;
         this.tags = tags;
-        this.boardCode = boardCode;
     }
 
     public UUID getId() {
@@ -91,14 +89,6 @@ public class TicketResponseDto {
         this.tags = tags;
     }
 
-    public String getBoardCode() {
-        return boardCode;
-    }
-
-    public void setBoardCode(String boardCode) {
-        this.boardCode = boardCode;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -110,18 +100,18 @@ public class TicketResponseDto {
         TicketResponseDto that = (TicketResponseDto) o;
         return getPosition() == that.getPosition() && Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle())
                 && getType() == that.getType() && getComplexity() == that.getComplexity() && getPriority() == that.getPriority() && Objects
-                .equals(getTags(), that.getTags()) && Objects.equals(getBoardCode(), that.getBoardCode());
+                .equals(getTags(), that.getTags());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getType(), getPosition(), getComplexity(), getPriority(), getTags(), getBoardCode());
+        return Objects.hash(getId(), getTitle(), getType(), getPosition(), getComplexity(), getPriority(), getTags());
     }
 
     @Override
     public String toString() {
         return new StringJoiner(", ", TicketResponseDto.class.getSimpleName() + "[", "]").add("id=" + id).add("title='" + title + "'")
                 .add("type=" + type).add("position=" + position).add("complexity=" + complexity).add("priority=" + priority).add("tags=" + tags)
-                .add("boardCode='" + boardCode + "'").toString();
+                .toString();
     }
 }

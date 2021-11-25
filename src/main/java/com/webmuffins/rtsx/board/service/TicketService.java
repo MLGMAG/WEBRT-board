@@ -20,4 +20,8 @@ public interface TicketService {
     TicketResponseDto updateTicket(UUID id, TicketRequestDto dto);
 
     void deleteTicketById(UUID id);
+
+    List<Ticket> getTicketEntities();
+
+    List<TicketResponseDto> getTicketsByRowId(UUID rowId);
 }

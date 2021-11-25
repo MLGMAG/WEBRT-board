@@ -29,6 +29,7 @@ class TicketServiceImplTest {
 
     private static final UUID DEFAULT_ID = UUID.randomUUID();
     private static final String DEFAULT_TITLE = "title";
+    private static final UUID DEFAULT_BOARD_ROW_ID = UUID.randomUUID();
 
     private Ticket ticket;
     private TicketResponseDto ticketResponseDto;
@@ -60,7 +61,6 @@ class TicketServiceImplTest {
 
         ticketResponseDto.setTitle(DEFAULT_TITLE);
         ticketResponseDto.setId(DEFAULT_ID);
-
         ticketRequestDto.setTitle(DEFAULT_TITLE);
     }
 
@@ -139,5 +139,16 @@ class TicketServiceImplTest {
         testInstance.deleteTicketById(DEFAULT_ID);
 
         verify(ticketRepository).deleteById(DEFAULT_ID);
+    }
+
+    @Test
+    void shouldGetTicketsByBoardRowId() {
+        when(ticketRepository.findTicketByBoardRow_Id(DEFAULT_BOARD_ROW_ID)).thenReturn(ticketList);
+        when(ticketMapper.mapEntityListToDtoList(ticketList)).thenReturn(ticketResponseDtoList);
+
+        List<TicketResponseDto> actual = testInstance.getTicketsByRowId(DEFAULT_BOARD_ROW_ID);
+
+        assertThat(actual).isNotNull()
+                .isEqualTo(ticketResponseDtoList);
     }
 }

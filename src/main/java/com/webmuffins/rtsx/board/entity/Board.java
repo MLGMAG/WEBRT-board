@@ -71,7 +71,7 @@ public class Board {
             return false;
         }
         Board board = (Board) o;
-        return Objects.equals(getId(), board.getId()) && Objects.equals(getTitle(), board.getTitle()) && Objects.equals(getRows(), board.getRows());
+        return Objects.equals(getId(), board.getId()) && Objects.equals(getTitle(), board.getTitle());
     }
 
     @Override

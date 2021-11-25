@@ -1,8 +1,11 @@
 package com.webmuffins.rtsx.board.dto.boardrow;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
+
+import com.webmuffins.rtsx.board.dto.ticket.TicketResponseDto;
 
 public class BoardRowResponseDto {
 
@@ -11,6 +14,7 @@ public class BoardRowResponseDto {
     private String color;
     private int positon;
     private UUID boardId;
+    private List<TicketResponseDto> tickets;
 
     public UUID getId() {
         return id;
@@ -50,6 +54,14 @@ public class BoardRowResponseDto {
 
     public void setBoardId(UUID boardId) {
         this.boardId = boardId;
+    }
+
+    public List<TicketResponseDto> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<TicketResponseDto> tickets) {
+        this.tickets = tickets;
     }
 
     @Override

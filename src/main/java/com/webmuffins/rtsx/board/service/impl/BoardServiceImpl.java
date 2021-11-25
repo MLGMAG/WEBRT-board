@@ -1,6 +1,9 @@
 package com.webmuffins.rtsx.board.service.impl;
 
+import java.util.List;
 import java.util.UUID;
+
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,10 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.webmuffins.rtsx.board.dto.board.BoardRequestDto;
 import com.webmuffins.rtsx.board.dto.board.BoardResponseDto;
+import com.webmuffins.rtsx.board.dto.boardrow.BoardRowResponseDto;
 import com.webmuffins.rtsx.board.entity.Board;
 import com.webmuffins.rtsx.board.exception.NotFoundException;
 import com.webmuffins.rtsx.board.mapper.Mapper;
 import com.webmuffins.rtsx.board.repository.BoardRepository;
+import com.webmuffins.rtsx.board.service.BoardRowService;
 import com.webmuffins.rtsx.board.service.BoardService;
 
 @Service
@@ -20,17 +25,22 @@ public class BoardServiceImpl implements BoardService {
     private static final Logger LOG = LoggerFactory.getLogger(BoardServiceImpl.class);
 
     private final BoardRepository boardRepository;
+    private final BoardRowService boardRowService;
     private final Mapper<Board, BoardRequestDto, BoardResponseDto> boardMapper;
 
-    public BoardServiceImpl(BoardRepository boardRepository, Mapper<Board, BoardRequestDto, BoardResponseDto> boardMapper) {
+    public BoardServiceImpl(BoardRepository boardRepository, BoardRowService boardRowService, Mapper<Board, BoardRequestDto, BoardResponseDto> boardMapper) {
         this.boardRepository = boardRepository;
+        this.boardRowService = boardRowService;
         this.boardMapper = boardMapper;
     }
 
     @Override
+    @Transactional
     public BoardResponseDto getBoardById(UUID id) {
         Board board = getBoardEntityById(id);
-        return boardMapper.mapEntityToDto(board);
+        BoardResponseDto boardResponseDto = boardMapper.mapEntityToDto(board);
+        boardResponseDto.setRows(boardRowService.getBoardRowsByBoardId(board.getId()));
+        return boardResponseDto;
     }
 
     @Override
