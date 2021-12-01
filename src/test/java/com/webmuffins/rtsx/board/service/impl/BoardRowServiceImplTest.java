@@ -64,6 +64,7 @@ class BoardRowServiceImplTest {
         boardRowResponseDtoList = Collections.singletonList(boardRowResponseDto);
         ticketResponseDtoList = Collections.singletonList(ticketResponseDto);
         boardRow.setTitle(DEFAULT_TITLE);
+        boardRow.setTickets(Collections.emptyList());
         boardRowResponseDto.setTitle(DEFAULT_TITLE);
         boardRowRequestDto.setTitle(DEFAULT_TITLE);
         boardRow.setId(DEFAULT_ID);
@@ -129,6 +130,7 @@ class BoardRowServiceImplTest {
     @Test
     void shouldDeleteBoardRowById() {
         when(boardRowRepository.existsById(DEFAULT_ID)).thenReturn(true);
+        when(boardRowRepository.findById(DEFAULT_ID)).thenReturn(Optional.of(boardRow));
 
         testInstance.deleteBoardRowById(DEFAULT_ID);
 
