@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.webmuffins.rtsx.board.exception.BadRequestException;
 import com.webmuffins.rtsx.board.exception.InvalidTokenException;
 import com.webmuffins.rtsx.board.exception.NotFoundException;
 
@@ -28,6 +29,12 @@ public class ExceptionHandlerAspect extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidTokenException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String handleInvalidTokenException(InvalidTokenException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String handleBadRequestException(BadRequestException e) {
         return e.getMessage();
     }
 

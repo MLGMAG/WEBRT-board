@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,7 +36,7 @@ public class BoardRow {
     @Column(name = "position")
     private int position;
 
-    @OneToMany
+    @OneToMany(mappedBy = "boardRow")
     private List<Ticket> tickets;
 
     @ManyToOne(fetch = FetchType.LAZY)

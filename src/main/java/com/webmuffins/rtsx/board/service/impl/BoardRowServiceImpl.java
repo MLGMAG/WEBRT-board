@@ -3,6 +3,8 @@ package com.webmuffins.rtsx.board.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.webmuffins.rtsx.board.dto.boardrow.BoardRowResponseDto;
 import com.webmuffins.rtsx.board.dto.boardrow.BoardRowRequestDto;
 import com.webmuffins.rtsx.board.entity.BoardRow;
+import com.webmuffins.rtsx.board.exception.BadRequestException;
 import com.webmuffins.rtsx.board.exception.NotFoundException;
 import com.webmuffins.rtsx.board.mapper.Mapper;
 import com.webmuffins.rtsx.board.repository.BoardRowRepository;
@@ -60,10 +63,19 @@ public class BoardRowServiceImpl implements BoardRowService {
     }
 
     @Override
+    @Transactional
     public void deleteBoardRowById(UUID id) {
         checkIfRowExistsById(id);
+        checkRowCanBeDeleted(id);
         boardRowRepository.deleteById(id);
         LOG.info("Delete row with id : {}", id);
+    }
+
+    private void checkRowCanBeDeleted(UUID id) {
+        BoardRow boardRow = getBoardRowEntityById(id);
+        if(!boardRow.getTickets().isEmpty()) {
+            throw new BadRequestException("Can not delete row, that contains at least one ticket");
+        }
     }
 
     @Override
