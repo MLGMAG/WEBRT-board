@@ -1,24 +1,20 @@
 package com.webmuffins.rtsx.board.security;
 
 
-import static com.webmuffins.rtsx.board.constants.HTTPConstants.AUTHORIZATION_HEADER;
-
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.webmuffins.rtsx.board.constants.Role;
+import com.webmuffins.rtsx.board.exception.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import com.webmuffins.rtsx.board.constants.Role;
-import com.webmuffins.rtsx.board.exception.InvalidTokenException;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+
+import static com.webmuffins.rtsx.board.constants.HTTPConstants.AUTHORIZATION_HEADER;
 
 @Component
 public class JwtTokenProvider {
@@ -26,11 +22,7 @@ public class JwtTokenProvider {
     @Value("${jwt.secret-key}")
     private String secretKey;
 
-    @Value("${jwt.validity-time}")
-    private long validityTime;
-
-
-        public void validateToken(String token) {
+    public void validateToken(String token) {
         try {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             validateTokenExpiration(claimsJws);
@@ -41,7 +33,7 @@ public class JwtTokenProvider {
 
     private void validateTokenExpiration(Jws<Claims> claimsJws) {
         boolean before = claimsJws.getBody().getExpiration().before(new Date());
-        if(before) {
+        if (before) {
             throw new InvalidTokenException("Token is expired");
         }
     }

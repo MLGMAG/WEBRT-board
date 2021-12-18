@@ -38,6 +38,7 @@ class TicketMapperTest {
     private static final Priority DEFAULT_PRIORITY = Priority.HIGH;
     private static final int DEFAULT_POSITION = 1;
     private static final Complexity DEFAULT_COMPLEXITY = Complexity.MEDIUM;
+    private static final String DEFAULT_DESCRIPTION = "description";
 
     private static final UUID DEFAULT_TAG_ID = UUID.randomUUID();
     private static final String DEFAULT_TAG_NAME = "tag name";
@@ -95,6 +96,7 @@ class TicketMapperTest {
         ticket.setPosition(DEFAULT_POSITION);
         ticket.setTags(tagList);
         ticket.setId(DEFAULT_ID);
+        ticket.setDescription(DEFAULT_DESCRIPTION);
 
         ticketResponseDto.setPriority(DEFAULT_PRIORITY);
         ticketResponseDto.setComplexity(DEFAULT_COMPLEXITY);
@@ -103,6 +105,7 @@ class TicketMapperTest {
         ticketResponseDto.setPosition(DEFAULT_POSITION);
         ticketResponseDto.setTags(tagResponseDtoList);
         ticketResponseDto.setId(DEFAULT_ID);
+        ticketResponseDto.setDescription(DEFAULT_DESCRIPTION);
 
         ticketRequestDto.setPriority(DEFAULT_PRIORITY);
         ticketRequestDto.setComplexity(DEFAULT_COMPLEXITY);
@@ -110,6 +113,7 @@ class TicketMapperTest {
         ticketRequestDto.setTitle(DEFAULT_TITLE);
         ticketRequestDto.setPosition(DEFAULT_POSITION);
         ticketRequestDto.setTags(tagRequestDtoList);
+        ticketRequestDto.setDescription(DEFAULT_DESCRIPTION);
     }
 
     @Test

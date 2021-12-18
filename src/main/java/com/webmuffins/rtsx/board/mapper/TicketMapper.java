@@ -1,10 +1,5 @@
 package com.webmuffins.rtsx.board.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Component;
-
 import com.webmuffins.rtsx.board.dto.tag.TagRequestDto;
 import com.webmuffins.rtsx.board.dto.tag.TagResponseDto;
 import com.webmuffins.rtsx.board.dto.ticket.TicketRequestDto;
@@ -13,6 +8,13 @@ import com.webmuffins.rtsx.board.entity.Tag;
 import com.webmuffins.rtsx.board.entity.Ticket;
 import com.webmuffins.rtsx.board.repository.BoardRowRepository;
 import com.webmuffins.rtsx.board.repository.TagRepository;
+import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @Component("ticketMapper")
 public class TicketMapper implements Mapper<Ticket, TicketRequestDto, TicketResponseDto> {
@@ -33,29 +35,56 @@ public class TicketMapper implements Mapper<Ticket, TicketRequestDto, TicketResp
         TicketResponseDto dto = new TicketResponseDto();
         dto.setId(entity.getId());
         dto.setPosition(entity.getPosition());
-        dto.setTags(tagMapper.mapEntityListToDtoList(entity.getTags()));
+        mapTags(entity, dto);
         dto.setTitle(entity.getTitle());
         dto.setType(entity.getType());
         dto.setPriority(entity.getPriority());
         dto.setComplexity(entity.getComplexity());
+        dto.setDescription(entity.getDescription());
 
         return dto;
+    }
+
+    private void mapTags(Ticket entity, TicketResponseDto dto) {
+        List<Tag> entityTags = entity.getTags();
+
+        if (isNull(entityTags)) {
+            dto.setTags(Collections.emptyList());
+            return;
+        }
+
+        List<TagResponseDto> responseTags = tagMapper.mapEntityListToDtoList(entityTags);
+        dto.setTags(responseTags);
     }
 
     @Override
     public Ticket mapDtoToEntity(TicketRequestDto dto) {
         Ticket entity = new Ticket();
-        List<String> tagNames = dto.getTags().stream()
-                .map(TagRequestDto::getName)
-                .collect(Collectors.toList());
-        entity.setTags(tagRepository.findAllByNameIn(tagNames));
+        mapTags(dto, entity);
         entity.setPosition(dto.getPosition());
         entity.setTitle(dto.getTitle());
         entity.setType(dto.getType());
         entity.setComplexity(dto.getComplexity());
         entity.setPriority(dto.getPriority());
         entity.setBoardRow(boardRowRepository.getById(dto.getRowId()));
+        entity.setDescription(dto.getDescription());
+
         return entity;
+    }
+
+    private void mapTags(TicketRequestDto dto, Ticket entity) {
+        List<TagRequestDto> dtoTags = dto.getTags();
+
+        if (isNull(dtoTags)) {
+            entity.setTags(Collections.emptyList());
+            return;
+        }
+
+        List<String> dtoTagNames = dtoTags.stream()
+                .map(TagRequestDto::getName)
+                .collect(Collectors.toList());
+        List<Tag> entityTags = tagRepository.findAllByNameIn(dtoTagNames);
+        entity.setTags(entityTags);
     }
 
 }
