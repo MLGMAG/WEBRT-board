@@ -1,28 +1,15 @@
 package com.webmuffins.rtsx.board.entity;
 
+import com.webmuffins.rtsx.board.constants.Complexity;
+import com.webmuffins.rtsx.board.constants.Priority;
+import com.webmuffins.rtsx.board.constants.TicketType;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import com.webmuffins.rtsx.board.constants.Complexity;
-import com.webmuffins.rtsx.board.constants.Priority;
-import com.webmuffins.rtsx.board.constants.TicketType;
 
 @Entity(name = "Ticket")
 @Table(name = "ticket")
@@ -51,6 +38,9 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
+    @Column(name = "description")
+    private String description;
+
     @ManyToMany
     @JoinTable(name = "ticket_tag", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
@@ -62,13 +52,14 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, List<Tag> tags, BoardRow boardRow) {
+    public Ticket(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, String description, List<Tag> tags, BoardRow boardRow) {
         this.id = id;
         this.title = title;
         this.type = type;
         this.position = position;
         this.complexity = complexity;
         this.priority = priority;
+        this.description = description;
         this.tags = tags;
         this.boardRow = boardRow;
     }
@@ -137,32 +128,41 @@ public class Ticket {
         this.boardRow = boardRow;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Ticket)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return getPosition() == ticket.getPosition() && Objects.equals(getId(), ticket.getId()) && Objects.equals(getTitle(), ticket.getTitle())
-                && getType() == ticket.getType() && getComplexity() == ticket.getComplexity() && getPriority() == ticket.getPriority() && Objects
-                .equals(getTags(), ticket.getTags()) && Objects.equals(getBoardRow(), ticket.getBoardRow());
+        return position == ticket.position && Objects.equals(id, ticket.id) && Objects.equals(title, ticket.title) &&
+                type == ticket.type && complexity == ticket.complexity && priority == ticket.priority &&
+                Objects.equals(description, ticket.description) && Objects.equals(tags, ticket.tags) &&
+                Objects.equals(boardRow, ticket.boardRow);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getType(), getPosition(), getComplexity(), getPriority(), getTags(), getBoardRow());
+        return Objects.hash(id, title, type, position, complexity, priority, description, tags, boardRow);
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Ticket.class.getSimpleName() + "[", "]").add("id=" + id).add("title='" + title + "'").add("type=" + type)
-                .add("position=" + position).add("complexity=" + complexity).add("priority=" + priority).add("tags=" + tags)
-                .add("boardRow=" + boardRow).toString();
+        return new StringJoiner(", ", Ticket.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("title='" + title + "'")
+                .add("type=" + type)
+                .add("position=" + position)
+                .add("complexity=" + complexity)
+                .add("priority=" + priority)
+                .add("description='" + description + "'")
+                .add("tags=" + tags)
+                .toString();
     }
-
 }
-
-

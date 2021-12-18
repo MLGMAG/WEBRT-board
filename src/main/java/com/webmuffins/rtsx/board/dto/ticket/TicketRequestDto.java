@@ -32,10 +32,12 @@ public class TicketRequestDto {
     @NotNull(message = "Ticket row can not be null")
     private UUID rowId;
 
+    private String description;
+
     public TicketRequestDto() {
     }
 
-    public TicketRequestDto(String title, TicketType type, int position, Complexity complexity, Priority priority, List<TagRequestDto> tags, UUID rowId) {
+    public TicketRequestDto(String title, TicketType type, int position, Complexity complexity, Priority priority, List<TagRequestDto> tags, UUID rowId, String description) {
         this.title = title;
         this.type = type;
         this.position = position;
@@ -43,6 +45,7 @@ public class TicketRequestDto {
         this.priority = priority;
         this.tags = tags;
         this.rowId = rowId;
+        this.description = description;
     }
 
     public String getTitle() {
@@ -101,30 +104,40 @@ public class TicketRequestDto {
         this.rowId = rowId;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof TicketRequestDto)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         TicketRequestDto that = (TicketRequestDto) o;
-        return getPosition() == that.getPosition() && Objects.equals(getTitle(), that.getTitle()) && getType() == that.getType()
-                && getComplexity() == that.getComplexity() && getPriority() == that.getPriority() && Objects.equals(getTags(), that.getTags())
-                && Objects.equals(getRowId(), that.getRowId());
+        return position == that.position && Objects.equals(title, that.title) && type == that.type &&
+                complexity == that.complexity && priority == that.priority && Objects.equals(tags, that.tags) &&
+                Objects.equals(rowId, that.rowId) && Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTitle(), getType(), getPosition(), getComplexity(), getPriority(), getTags(), getRowId());
+        return Objects.hash(title, type, position, complexity, priority, tags, rowId, description);
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", TicketRequestDto.class.getSimpleName() + "[", "]").add("title='" + title + "'").add("ticketType=" + type)
-                .add("position=" + position).add("complexity=" + complexity).add("priority=" + priority).add("tags=" + tags).add("rowId=" + rowId)
+        return new StringJoiner(", ", TicketRequestDto.class.getSimpleName() + "[", "]")
+                .add("title='" + title + "'")
+                .add("type=" + type)
+                .add("position=" + position)
+                .add("complexity=" + complexity)
+                .add("priority=" + priority)
+                .add("tags=" + tags)
+                .add("rowId=" + rowId)
+                .add("description='" + description + "'")
                 .toString();
     }
-
 }
