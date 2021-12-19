@@ -6,12 +6,14 @@ import java.util.StringJoiner;
 import java.util.UUID;
 
 import com.webmuffins.rtsx.board.dto.boardrow.BoardRowResponseDto;
+import com.webmuffins.rtsx.board.dto.user.UserDto;
 
 public class BoardResponseDto {
 
     private UUID id;
     private String name;
     private List<BoardRowResponseDto> rows;
+    private List<UserDto> allUsers;
 
     public String getName() {
         return name;
@@ -41,6 +43,14 @@ public class BoardResponseDto {
         this.rows = rows;
     }
 
+    public List<UserDto> getAllUsers() {
+        return allUsers;
+    }
+
+    public void setAllUsers(List<UserDto> allUsers) {
+        this.allUsers = allUsers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -50,17 +60,18 @@ public class BoardResponseDto {
             return false;
         }
         BoardResponseDto that = (BoardResponseDto) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getRows(), that.getRows());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getRows(), that.getRows())
+                && Objects.equals(getAllUsers(), that.getAllUsers());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getRows());
+        return Objects.hash(getId(), getName(), getRows(), getAllUsers());
     }
 
     @Override
     public String toString() {
         return new StringJoiner(", ", BoardResponseDto.class.getSimpleName() + "[", "]").add("id=" + id).add("name='" + name + "'")
-                .add("rows=" + rows).toString();
+                .add("rows=" + rows).add("allUsers=" + allUsers).toString();
     }
 }

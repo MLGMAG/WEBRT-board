@@ -20,11 +20,13 @@ public class TicketResponseDto {
     private Priority priority;
     private List<TagResponseDto> tags;
     private String description;
+    private Long assigneeId;
 
     public TicketResponseDto() {
     }
 
-    public TicketResponseDto(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, List<TagResponseDto> tags, String description) {
+    public TicketResponseDto(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, List<TagResponseDto> tags, String description,
+            Long assigneeId) {
         this.id = id;
         this.title = title;
         this.type = type;
@@ -33,6 +35,7 @@ public class TicketResponseDto {
         this.priority = priority;
         this.tags = tags;
         this.description = description;
+        this.assigneeId = assigneeId;
     }
 
     public UUID getId() {
@@ -99,19 +102,33 @@ public class TicketResponseDto {
         this.description = description;
     }
 
+    public Long getAssigneeId() {
+        return assigneeId;
+    }
+
+    public void setAssigneeId(Long assigneeId) {
+        this.assigneeId = assigneeId;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TicketResponseDto)) {
+            return false;
+        }
         TicketResponseDto that = (TicketResponseDto) o;
-        return position == that.position && Objects.equals(id, that.id) && Objects.equals(title, that.title) &&
-                type == that.type && complexity == that.complexity && priority == that.priority &&
-                Objects.equals(tags, that.tags) && Objects.equals(description, that.description);
+        return getPosition() == that.getPosition() && Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle())
+                && getType() == that.getType() && getComplexity() == that.getComplexity() && getPriority() == that.getPriority() && Objects.equals(
+                getTags(), that.getTags()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(
+                getAssigneeId(), that.getAssigneeId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, type, position, complexity, priority, tags, description);
+        return Objects.hash(
+                getId(), getTitle(), getType(), getPosition(), getComplexity(), getPriority(), getTags(), getDescription(), getAssigneeId());
     }
 
     @Override
@@ -125,6 +142,6 @@ public class TicketResponseDto {
                 .add("priority=" + priority)
                 .add("tags=" + tags)
                 .add("description='" + description + "'")
-                .toString();
+                .add("assigneeId=" + assigneeId).toString();
     }
 }

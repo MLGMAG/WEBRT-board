@@ -49,10 +49,14 @@ public class Ticket {
     @JoinColumn(name = "row_id")
     private BoardRow boardRow;
 
+    @Column(name = "user_id")
+    private Long userId;
+
     public Ticket() {
     }
 
-    public Ticket(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, String description, List<Tag> tags, BoardRow boardRow) {
+    public Ticket(UUID id, String title, TicketType type, int position, Complexity complexity, Priority priority, String description, List<Tag> tags,
+            BoardRow boardRow, Long userId) {
         this.id = id;
         this.title = title;
         this.type = type;
@@ -62,6 +66,7 @@ public class Ticket {
         this.description = description;
         this.tags = tags;
         this.boardRow = boardRow;
+        this.userId = userId;
     }
 
     public UUID getId() {
@@ -136,20 +141,34 @@ public class Ticket {
         this.description = description;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long assignee) {
+        this.userId = assignee;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Ticket)) {
+            return false;
+        }
         Ticket ticket = (Ticket) o;
-        return position == ticket.position && Objects.equals(id, ticket.id) && Objects.equals(title, ticket.title) &&
-                type == ticket.type && complexity == ticket.complexity && priority == ticket.priority &&
-                Objects.equals(description, ticket.description) && Objects.equals(tags, ticket.tags) &&
-                Objects.equals(boardRow, ticket.boardRow);
+        return getPosition() == ticket.getPosition() && Objects.equals(getId(), ticket.getId()) && Objects.equals(getTitle(), ticket.getTitle())
+                && getType() == ticket.getType() && getComplexity() == ticket.getComplexity() && getPriority() == ticket.getPriority()
+                && Objects.equals(getDescription(), ticket.getDescription()) && Objects.equals(getTags(), ticket.getTags()) && Objects.equals(
+                getBoardRow(), ticket.getBoardRow()) && Objects.equals(getUserId(), ticket.getUserId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, type, position, complexity, priority, description, tags, boardRow);
+        return Objects.hash(getId(), getTitle(), getType(), getPosition(), getComplexity(), getPriority(), getDescription(), getTags(), getBoardRow(),
+                getUserId()
+        );
     }
 
     @Override
@@ -163,6 +182,7 @@ public class Ticket {
                 .add("priority=" + priority)
                 .add("description='" + description + "'")
                 .add("tags=" + tags)
-                .toString();
+                .add("boardRow=" + boardRow)
+                .add("userId=" + userId).toString();
     }
 }
