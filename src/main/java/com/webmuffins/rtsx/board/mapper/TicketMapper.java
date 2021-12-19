@@ -41,6 +41,7 @@ public class TicketMapper implements Mapper<Ticket, TicketRequestDto, TicketResp
         dto.setPriority(entity.getPriority());
         dto.setComplexity(entity.getComplexity());
         dto.setDescription(entity.getDescription());
+        dto.setAssigneeId(entity.getUserId());
 
         return dto;
     }
@@ -68,6 +69,7 @@ public class TicketMapper implements Mapper<Ticket, TicketRequestDto, TicketResp
         entity.setPriority(dto.getPriority());
         entity.setBoardRow(boardRowRepository.getById(dto.getRowId()));
         entity.setDescription(dto.getDescription());
+        entity.setUserId(dto.getAssignee());
 
         return entity;
     }

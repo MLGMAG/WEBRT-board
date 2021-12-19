@@ -1,6 +1,5 @@
 package com.webmuffins.rtsx.board.service.impl;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.webmuffins.rtsx.board.dto.board.BoardRequestDto;
 import com.webmuffins.rtsx.board.dto.board.BoardResponseDto;
-import com.webmuffins.rtsx.board.dto.boardrow.BoardRowResponseDto;
 import com.webmuffins.rtsx.board.entity.Board;
 import com.webmuffins.rtsx.board.exception.NotFoundException;
 import com.webmuffins.rtsx.board.mapper.Mapper;
