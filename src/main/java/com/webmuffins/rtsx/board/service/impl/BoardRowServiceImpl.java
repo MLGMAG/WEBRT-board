@@ -1,5 +1,6 @@
 package com.webmuffins.rtsx.board.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,6 +51,7 @@ public class BoardRowServiceImpl implements BoardRowService {
     public BoardRowResponseDto createBoardRow(BoardRowRequestDto dto) {
         BoardRow row = boardRowMapper.mapDtoToEntity(dto);
         BoardRow savedRow = boardRowRepository.save(row);
+        savedRow.setTickets(new ArrayList<>());
         return boardRowMapper.mapEntityToDto(savedRow);
     }
 
