@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +40,9 @@ class BoardRowMapperTest {
     @Mock
     private BoardRepository boardRepository;
 
+    @Mock
+    private TicketMapper ticketMapper;
+
     @InjectMocks
     private BoardRowMapper testInstance;
 
@@ -61,10 +65,14 @@ class BoardRowMapperTest {
         boardRow.setBoard(board);
         boardRowResponseDto.setBoardId(DEFAULT_BOARD_ID);
         boardRowRequestDto.setBoardId(DEFAULT_BOARD_ID);
+        boardRow.setTickets(Collections.emptyList());
+        boardRowResponseDto.setTickets(Collections.emptyList());
     }
 
     @Test
     void shouldMapEntityToDto() {
+        when(ticketMapper.mapEntityListToDtoList(Collections.emptyList())).thenReturn(Collections.emptyList());
+
         BoardRowResponseDto actual = testInstance.mapEntityToDto(boardRow);
 
         assertThat(actual).isNotNull()
@@ -75,6 +83,7 @@ class BoardRowMapperTest {
     @Test
     void shouldMapDtoToEntity() {
         boardRow.setId(null);
+        boardRow.setTickets(null);
 
         when(boardRepository.findById(DEFAULT_BOARD_ID)).thenReturn(Optional.of(board));
 
