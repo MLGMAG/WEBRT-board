@@ -12,9 +12,11 @@ import com.webmuffins.rtsx.board.repository.BoardRepository;
 public class BoardRowMapper implements Mapper<BoardRow, BoardRowRequestDto, BoardRowResponseDto> {
 
     private final BoardRepository boardRepository;
+    private final TicketMapper ticketMapper;
 
-    public BoardRowMapper(BoardRepository boardRepository) {
+    public BoardRowMapper(BoardRepository boardRepository, TicketMapper ticketMapper) {
         this.boardRepository = boardRepository;
+        this.ticketMapper = ticketMapper;
     }
 
     @Override
@@ -25,6 +27,7 @@ public class BoardRowMapper implements Mapper<BoardRow, BoardRowRequestDto, Boar
         dto.setColor(entity.getColor());
         dto.setTitle(entity.getTitle());
         dto.setPositon(entity.getPosition());
+        dto.setTickets(ticketMapper.mapEntityListToDtoList(entity.getTickets()));
         return dto;
     }
 
